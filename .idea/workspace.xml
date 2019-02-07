@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bfa1c188-eeb4-4529-ae5f-5ca7906478c4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlecalendar.py" afterPath="$PROJECT_DIR$/googlecalendar.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/macds.py" afterPath="$PROJECT_DIR$/macds.py" />
-    </list>
+    <list default="true" id="bfa1c188-eeb4-4529-ae5f-5ca7906478c4" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +18,8 @@
       <file leaf-file-name="macds.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/macds.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="74" column="12" lean-forward="false" selection-start-line="74" selection-start-column="12" selection-end-line="74" selection-end-column="12" />
+            <state relative-caret-position="421">
+              <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding>
                 <element signature="e#143#176#0" expanded="true" />
               </folding>
@@ -789,8 +786,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/macds.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="74" column="12" lean-forward="false" selection-start-line="74" selection-start-column="12" selection-end-line="74" selection-end-column="12" />
+        <state relative-caret-position="421">
+          <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding>
             <element signature="e#143#176#0" expanded="true" />
           </folding>
