@@ -1,0 +1,5 @@
+__pycache__/
+
+# contains login information
+client_secret.json
+config.py

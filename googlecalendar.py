@@ -1,11 +1,12 @@
 #!usr/bin/python
 # A Script that gets this weeks schedule from peoplestuff and adds them to google calendar
+# In order for this to work you will need the client_secret file.
+# You can find this here: https://developers.google.com/calendar/quickstart/go
 
 import macds as mac
+import config
 import os
 import httplib2
-import datetime
-import yaml
 import argparse
 
 from apiclient import discovery
@@ -23,13 +24,6 @@ CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Macds writer'
 
 service = None
-
-
-# uses a yaml file to store the username and password
-with open("config.yml", 'r') as yml_file:
-    cfg = yaml.load(yml_file)
-    password = cfg['password']
-    username = cfg['username']
 
 
 def get_credentials():
@@ -53,69 +47,26 @@ def get_credentials():
     return credentials
 
 
-def add_shift_to_calendar(schedule):
+def add_shift_to_calendar(shift):
     """
-    addShiftToCalendar loops through the schedule and adds each shift to the calendar
+    Adds the given shift to the calendar.
 
-    :param schedule: list of shifts
-    :type schedule: list of shifts as tuples in the form of ("day, date", "start:end")
+    :param shift: tuple containing datetimes for the start and end of the shift.
     """
     
     event = {
         'summary': 'Shift'
         }
 
-    for val in schedule:
-        dt_tup = __create_datetime(val)
-        if dt_tup is not None:
+    start = shift[0].isoformat('T') + 'Z'
+    st = {'dateTime': start, 'timezone': 'GMT'}
+    event['start'] = st
 
-            start = dt_tup[0].isoformat('T') + 'Z'
-            st = {'dateTime': start, 'timezone': 'GMT'}
-            event['start'] = st
+    end = shift[1].isoformat('T') + 'Z'
+    en = {'dateTime': end, 'timezone': 'GMT'}
+    event['end'] = en
 
-            end = dt_tup[1].isoformat('T') + 'Z'
-            en = {'dateTime': end, 'timezone': 'GMT'}
-            event['end'] = en
-
-            add_to_calendar(event)
-
-
-def __create_datetime(shift):
-    """
-    createDateTime is a helper method for the addShiftToCalendar function. It creates and start and an end datetime
-    and returns them as a tuple.
-
-    The shift param will be a tuple in the format ('Thursday, 09/03/2017', '16:30-23:30').
-
-    :param shift: shift time
-    :type shift: tuple
-    :return: a tuple containing a datetime object for the start and end of the shift. Will return None if there is
-    no time in the shift string.
-    """
-    print(shift)
-
-    time_format = "%d/%m/%Y %H:%M"
-    # get the date string
-    day, time = shift
-    date = day.split(", ")[1]
-    s = date + " "
-
-    # split the time into shift start and end
-    tm = time.split("-")
-
-    # check if tm has both start and end time
-    if len(tm) != 2:
-        return
-
-    start = s + tm[0]
-    s_dt = datetime.datetime.strptime(start, time_format)
-    end = s + tm[1]
-
-    e_dt = datetime.datetime.strptime(end, time_format)
-    
-    tup = (s_dt, e_dt)
-    
-    return tup
+    add_to_calendar(event)
 
 
 def add_to_calendar(entry):
@@ -148,19 +99,15 @@ def add_to_calendar(entry):
     entry = service.events().insert(calendarId='primary', body=entry).execute()
     print("Entry created: %s" % (entry.get('htmlLink')))
 
-
-def main():
-    
+ 
+if __name__ == '__main__':
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
-    global service  # global variable so the addToCalendar function can access it
+    global service  # global variable so the addToCalendar function can access it. Doesn't authenticate without it
     service = discovery.build('calendar', 'v3', http=http)
 
     # get schedule for this week
-    schedule = mac.get_shift(username, password)
+    schedule = mac.get_schedule(config.username, config.password)
     # add the shifts to google calendar
-    for val in schedule.weeks:
+    for val in schedule.days_working:
         add_shift_to_calendar(val)
- 
-if __name__ == '__main__':
-    main()
