@@ -115,6 +115,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+*.pyc
+
 # contains login information
 client_secret.json
 config.py
